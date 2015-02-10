@@ -1,0 +1,19 @@
+{
+  "name": "mizbespot",
+  "version": "0.0.0",
+  "authors": [
+    "小飼慎一 <kogai0121@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.7.0",
+    "angularjs": "~1.3.13"
+  }
+}
