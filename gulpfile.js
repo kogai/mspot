@@ -19,45 +19,56 @@ var stylus      = require('gulp-stylus');
 var nib         = require('nib');
 var sourcemaps  = require('gulp-sourcemaps');
 
+var sourceDefiner = function( dest ){
+    this.root           = dest;
+    this.stylus         = this.root + '/stylus' ;
+    this.css            = this.root + '/css' ;
+    this.jade           = this.root + '/jade' ;
+    this.javascripts    = this.root + '/javascripts' ;
+    this.bundle         = 'bundle.min.js;'
+}
+
+var src                 = new sourceDefiner('./src');
+var build               = new sourceDefiner('./build');
 
 gulp.task('stylus', function(){
-    return gulp.src('./src/stylus/index.styl')
+    return gulp.src( src.stylus + '/index.styl' )
         .pipe( stylus({
             use: nib(),
             compress: true
         }))
         .pipe( sourcemaps.write() )
-        .pipe( gulp.dest( './build/public/css/' ))
+        .pipe( gulp.dest( build.css ))
 });
 
 gulp.task('jade', function(){
-    return gulp.src( './src/jade/*.jade' )
+    return gulp.src( src.jade + '/*.jade' )
         .pipe(jade({
             pretty: true
         }))
-        .pipe( gulp.dest('./build/public/'));
+        .pipe( gulp.dest( build.root ));
 });
 
 gulp.task('lint', function(){
-    return gulp.src('./src/javascripts/lib/*.js')
+    return gulp.src( src.javascripts + '/lib/*.js' )
         .pipe( jshint() )
         .pipe( jshint.reporter( stylish ) );
 });
 
 gulp.task('browserify', function() {
-    return browserify('./src/javascripts/index.js')
+    return browserify( src.javascripts + '/index.js' )
         .transform( debowerify )
         .bundle()
-        .pipe( source( 'bundle.min.js') )
+        .pipe( source( build.bundle ) )
         .pipe( streamify( uglify() ) )
-        .pipe( gulp.dest('./build/public/javascripts/') );
+        .pipe( gulp.dest( build.javascripts ) );
 });
 
 
 gulp.task( 'watch', function() {
-    gulp.watch( [ './src/stylus/*.styl', './src/stylus/**/*.styl' ], [ 'stylus' ] );
-    gulp.watch( [ './src/jade/*.jade', './src/jade/**/*.jade' ], [ 'jade' ] );
-    gulp.watch( [ './src/javascripts/**/*.js' ], [ 'lint', 'browserify' ] );
+    gulp.watch( [ src.stylus + '/*.styl', src.stylus + '/**/*.styl' ], [ 'stylus' ] );
+    gulp.watch( [ src.jade + '/*.jade', src.jade + '/**/*.jade' ], [ 'jade' ] );
+    gulp.watch( [ src.javascripts + '/*.js', src.javascripts + '/**/*.js' ], [ 'lint', 'browserify' ] );
 });
 
 gulp.task( 'default', [ 'stylus', 'jade', 'lint', 'browserify', 'watch' ] );
