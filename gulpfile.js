@@ -14,15 +14,28 @@ var uglify      = require('gulp-uglify');
 // jade
 var jade        = require('gulp-jade');
 
-// watch
-var watch       = require('gulp-watch');
+// Stylus
+var stylus      = require('gulp-stylus');
+var nib         = require('nib');
+var sourcemaps  = require('gulp-sourcemaps');
 
-gulp.task('templates', function(){
+
+gulp.task('stylus', function(){
+    return gulp.src('./src/stylus/index.styl')
+        .pipe( stylus({
+            use: nib(),
+            compress: true
+        }))
+        .pipe( sourcemaps.write() )
+        .pipe( gulp.dest( './build/public/css/' ))
+});
+
+gulp.task('jade', function(){
     return gulp.src( './src/jade/*.jade' )
         .pipe(jade({
             pretty: true
         }))
-        .pipe( gulp.dest('./build/'));
+        .pipe( gulp.dest('./build/public/'));
 });
 
 gulp.task('lint', function(){
@@ -37,12 +50,14 @@ gulp.task('browserify', function() {
         .bundle()
         .pipe( source( 'bundle.min.js') )
         .pipe( streamify( uglify() ) )
-        .pipe( gulp.dest('./build/js/') );
+        .pipe( gulp.dest('./build/public/javascripts/') );
 });
 
 
 gulp.task( 'watch', function() {
+    gulp.watch( [ './src/stylus/*.styl', './src/stylus/**/*.styl' ], [ 'stylus' ] );
+    gulp.watch( [ './src/jade/*.jade', './src/jade/**/*.jade' ], [ 'jade' ] );
     gulp.watch( [ './src/javascripts/**/*.js' ], [ 'lint', 'browserify' ] );
 });
 
-gulp.task('default', [ 'lint', 'browserify', 'watch' ]);
+gulp.task( 'default', [ 'stylus', 'jade', 'lint', 'browserify', 'watch' ] );
