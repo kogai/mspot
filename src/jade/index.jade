@@ -13,7 +13,7 @@ html
                     .l-idb 緯度でソート
 
             ul.l-clr.m-list-photos
-                li( ng-repeat='event in events | orderBy:sortExpression:reverse | filter: farDistance').l-left
+                li( ng-repeat='event in events | orderBy:cordinateX:reverse | filter:filterByDistance').l-left
                     a( ng-href="{{ event.link }}", target='_blank' )
                         img( ng-src="{{ event.imgSrc }}", alt="{{ event.title }}")
                     p.m-fz12 開始日: {{ event.eventStart }}

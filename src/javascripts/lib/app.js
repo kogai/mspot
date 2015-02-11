@@ -1,9 +1,13 @@
 module.exports = function( $scope, $filter, $http ) {
+
+    // @todo
+    // promise化する
+
     $http({
         method: 'get',
         url: '/javascripts/test.json'
-    }).
-    success(function(data, status) {
+    })
+    .success(function(data, status) {
 
         for (var i = 0; i < data.length; i++) {
             data[i].cordinateX = Number( data[i].cordinateX );
@@ -11,16 +15,17 @@ module.exports = function( $scope, $filter, $http ) {
         }
         $scope.events = data;
 
+        $scope.farDistance = 145;
+
         $scope.filterByDistance = function( myEvent ){
-            return myEvent.farDistance > myEvent.cordinateX;
+            return $scope.farDistance > myEvent.cordinateX;
         };
 
-    }).
-    error(function(data, status) {
+    })
+    .error(function(data, status) {
         alert('通信エラーが発生しました');
     });
 };
-
 // angular.module('App',[]).controller('MainController', [ '$scope', function ( $scope ){
 
 //     $scope.currentFilter = null;

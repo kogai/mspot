@@ -14,7 +14,7 @@
         </li>
       </ul>
       <ul class="l-clr m-list-photos">
-        <li ng-repeat="event in events | orderBy:sortExpression:reverse | filter: farDistance" class="l-left"><a ng-href="{{ event.link }}" target="_blank"><img ng-src="{{ event.imgSrc }}" alt="{{ event.title }}"></a>
+        <li ng-repeat="event in events | orderBy:cordinateX:reverse | filter:filterByDistance" class="l-left"><a ng-href="{{ event.link }}" target="_blank"><img ng-src="{{ event.imgSrc }}" alt="{{ event.title }}"></a>
           <p class="m-fz12">開始日: {{ event.eventStart }}</p>
           <p class="m-fz12">緯度: {{ event.cordinateX }}</p>
           <p class="m-fz12">経度: {{ event.cordinateY }}</p>
