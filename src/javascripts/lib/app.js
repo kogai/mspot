@@ -4,17 +4,15 @@ module.exports = function( $scope, $filter, $http ) {
         url: '/javascripts/test.json'
     }).
     success(function(data, status) {
+
+        for (var i = 0; i < data.length; i++) {
+            data[i].cordinateX = Number( data[i].cordinateX );
+            data[i].cordinateY = Number( data[i].cordinateY );
+        }
         $scope.events = data;
 
-        $scope.filter = {
-            title: { title: true }
-        };
-
-        $scope.filterByTitle = null;
-
-        $scope.changeFilter = function( filter ){
-            console.log( filter );
-            $scope.filterByTitle = filter;
+        $scope.filterByDistance = function( myEvent ){
+            return myEvent.farDistance > myEvent.cordinateX;
         };
 
     }).
@@ -24,15 +22,6 @@ module.exports = function( $scope, $filter, $http ) {
 };
 
 // angular.module('App',[]).controller('MainController', [ '$scope', function ( $scope ){
-//     $scope.todos = [];
-//
-//     $scope.addTodo = function(){
-//         $scope.todos.push({
-//             title: $scope.newTitle,
-//             done: false
-//         });
-//         $scope.newTitle = '';
-//     };
 //
 //     $scope.filter = {
 //         done: { done: true },

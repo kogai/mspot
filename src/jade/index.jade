@@ -1,35 +1,23 @@
 doctype html
 html
-head
-    meta( charset="UTF-8" )
-    link( rel="stylesheet", href="/css/index.css" )
-    title MAP-APP
-body( ng-app='App' )
-    div( ng-controller='MainController' )
-        ul.l-center.m-list-sort
-            
-            li.l-idb
-                input( type='radio', ng-click="sortExpression='cordinateX'; reverse=!reverse" ).l-idb
-                .l-idb 緯度でソート
+    head
+        meta( charset="UTF-8" )
+        link( rel="stylesheet", href="/css/index.css" )
+        title MAP-APP
+    body( ng-app='App' )
+        div( ng-controller='MainController' )
+            ul.l-center.m-list-sort
+                
+                li.l-idb
+                    input( type='number', ng-model="farDistance" ).l-idb
+                    .l-idb 緯度でソート
 
-            li.l-idb
-                input( type='radio', ng-click="sortExpression='cordinateY'; reverse=!reverse" ).l-idb
-                .l-idb 経度でソート
-
-            li.l-idb
-                input( type='radio', ng-click="sortExpression='eventStart'; reverse=!reverse" ).l-idb
-                .l-idb 開始日でソート
-
-            li.l-idb
-                input( type='radio', ng-click="changeFilter( filter.title )" ).l-idb
-                .l-idb タイトルでソート
-
-        ul.l-clr.m-list-photos
-            li( ng-repeat='event in events | orderBy:sortExpression:reverse | filter: filterByTitle').l-left
-                a( ng-href="{{ event.link }}", target='_blank' )
-                    img( ng-src="{{ event.imgSrc }}", alt="{{ event.title }}")
-                p.m-fz12 開始日: {{ event.eventStart }}
-                p.m-fz12 緯度: {{ event.cordinateX }}
-                p.m-fz12 経度: {{ event.cordinateY }}
-    script( src='/javascripts/bundle.min.js' )
+            ul.l-clr.m-list-photos
+                li( ng-repeat='event in events | orderBy:sortExpression:reverse | filter: farDistance').l-left
+                    a( ng-href="{{ event.link }}", target='_blank' )
+                        img( ng-src="{{ event.imgSrc }}", alt="{{ event.title }}")
+                    p.m-fz12 開始日: {{ event.eventStart }}
+                    p.m-fz12 緯度: {{ event.cordinateX }}
+                    p.m-fz12 経度: {{ event.cordinateY }}
+        script( src='/javascripts/bundle.min.js' )
     
