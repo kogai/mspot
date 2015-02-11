@@ -1,11 +1,22 @@
-module.exports = function( $scope, $http ) {
+module.exports = function( $scope, $filter, $http ) {
     $http({
         method: 'get',
         url: '/javascripts/test.json'
     }).
     success(function(data, status) {
-        console.log( data.length );
         $scope.events = data;
+
+        $scope.filter = {
+            title: { title: true }
+        };
+
+        $scope.filterByTitle = null;
+
+        $scope.changeFilter = function( filter ){
+            console.log( filter );
+            $scope.filterByTitle = filter;
+        };
+
     }).
     error(function(data, status) {
         alert('通信エラーが発生しました');

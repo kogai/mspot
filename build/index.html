@@ -7,8 +7,30 @@
 </head>
 <body ng-app="App">
   <div ng-controller="MainController">
+    <ul class="l-center m-list-sort">
+      <li class="l-idb">
+        <input type="radio" ng-click="sortExpression='cordinateX'; reverse=!reverse" class="l-idb">
+        <div class="l-idb">緯度でソート</div>
+      </li>
+      <li class="l-idb">
+        <input type="radio" ng-click="sortExpression='cordinateY'; reverse=!reverse" class="l-idb">
+        <div class="l-idb">経度でソート</div>
+      </li>
+      <li class="l-idb">
+        <input type="radio" ng-click="sortExpression='eventStart'; reverse=!reverse" class="l-idb">
+        <div class="l-idb">開始日でソート</div>
+      </li>
+      <li class="l-idb">
+        <input type="radio" ng-click="changeFilter( filter.title )" class="l-idb">
+        <div class="l-idb">タイトルでソート</div>
+      </li>
+    </ul>
     <ul class="l-clr m-list-photos">
-      <li ng-repeat="event in events" class="l-left"><a ng-href="{{ event.link }}" target="_blank"><img ng-src="{{ event.imgSrc }}" alt="{{ event.title }}"></a></li>
+      <li ng-repeat="event in events | orderBy:sortExpression:reverse | filter: filterByTitle" class="l-left"><a ng-href="{{ event.link }}" target="_blank"><img ng-src="{{ event.imgSrc }}" alt="{{ event.title }}"></a>
+        <p class="m-fz12">開始日: {{ event.eventStart }}</p>
+        <p class="m-fz12">緯度: {{ event.cordinateX }}</p>
+        <p class="m-fz12">経度: {{ event.cordinateY }}</p>
+      </li>
     </ul>
   </div>
   <script src="/javascripts/bundle.min.js"></script>
