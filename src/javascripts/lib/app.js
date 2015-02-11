@@ -1,11 +1,11 @@
 module.exports = function( $scope, $http ) {
     $http({
         method: 'get',
-        url: '/javascripts/instagram.json',
-        // withCredentials: true
+        url: '/javascripts/test.json'
     }).
     success(function(data, status) {
-        $scope.photos = data;
+        console.log( data.length );
+        $scope.events = data;
     }).
     error(function(data, status) {
         alert('通信エラーが発生しました');

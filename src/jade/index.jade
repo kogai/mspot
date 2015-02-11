@@ -7,8 +7,8 @@ head
 body( ng-app='App' )
     div( ng-controller='MainController' )
         ul.l-clr.m-list-photos
-            li( ng-repeat='photo in photos').l-left
-                a( ng-href="{{ photo.link }}", target='_blank' )
-                    img( ng-src="{{ photo.images.standard_resolution.url }}", alt="{{photo.caption.text}}")
+            li( ng-repeat='event in events').l-left
+                a( ng-href="{{ event.link }}", target='_blank' )
+                    img( ng-src="{{ event.imgSrc }}", alt="{{ event.title }}")
     script( src='/javascripts/bundle.min.js' )
     
