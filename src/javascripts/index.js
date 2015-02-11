@@ -1,5 +1,5 @@
-var app = require('./lib/app');
+require('angularjs');
+var app     = require('./lib/app');
 
-(function(){
-    app();
-})
+
+angular.module('App',[]).controller('MainController', [ '$scope', '$http', app ]);

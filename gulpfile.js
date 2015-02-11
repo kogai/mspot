@@ -25,7 +25,7 @@ var sourceDefiner = function( dest ){
     this.css            = this.root + '/css' ;
     this.jade           = this.root + '/jade' ;
     this.javascripts    = this.root + '/javascripts' ;
-    this.bundle         = 'bundle.min.js;'
+    this.bundle         = 'bundle.min.js'
 }
 
 var src                 = new sourceDefiner('./src');

@@ -2,9 +2,13 @@ doctype html
 html
 head
     meta( charset="UTF-8" )
-    link( rel="stylesheet", href="/public/css/style.css" )
+    link( rel="stylesheet", href="/css/index.css" )
     title MAP-APP
-body( ng-app='App')
-    div( ng-controller='mapController' )
-    script( src='/public/javascripts/bundle.min.js' )
+body( ng-app='App' )
+    div( ng-controller='MainController' )
+        ul.l-clr.m-list-photos
+            li( ng-repeat='photo in photos').l-left
+                a( ng-href="{{ photo.link }}", target='_blank' )
+                    img( ng-src="{{ photo.images.standard_resolution.url }}", alt="{{photo.caption.text}}")
+    script( src='/javascripts/bundle.min.js' )
     
