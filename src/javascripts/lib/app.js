@@ -22,12 +22,7 @@ module.exports = function( $scope, $filter, $http ) {
 };
 
 // angular.module('App',[]).controller('MainController', [ '$scope', function ( $scope ){
-//
-//     $scope.filter = {
-//         done: { done: true },
-//         remaining: { done: false }
-//     };
-//
+
 //     $scope.currentFilter = null;
 //
 //     $scope.changeFilter = function ( filter ){
