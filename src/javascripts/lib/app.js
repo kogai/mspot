@@ -61,11 +61,13 @@ var renderMapsAndMarkers = function( pos ){
     return d.promise;
 };
 
+// handler
+
 $http( httpOpt )
     .success( insetanceModels )
     .then( getGeoLocation )
     .then( renderMapsAndMarkers )
-    .then( function(){
+    .finally( function(){
         console.log( 'all promise is done.' );
     });
 };
