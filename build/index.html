@@ -7,6 +7,9 @@
   </head>
   <body ng-app="App">
     <div ng-controller="MainController">
+      <ui-gmap-google-map center="map.center" zoom="map.zoom">
+        <ui-gmap-marker idKey="map.id" coords="map.center"></ui-gmap-marker>
+      </ui-gmap-google-map>
       <ul class="l-center m-list-sort">
         <li class="l-idb">
           <input type="number" ng-model="farDistance" class="l-idb">
@@ -21,6 +24,10 @@
         </li>
       </ul>
     </div>
+    <script src="https//maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="/javascripts/angular.min.js"></script>
+    <script src="/javascripts/lodash.underscore.min.js"></script>
+    <script src="/javascripts/angular-google-maps.min.js"></script>
     <script src="/javascripts/bundle.min.js"></script>
   </body>
 </html>

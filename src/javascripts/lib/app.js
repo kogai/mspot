@@ -15,6 +15,17 @@ module.exports = function( $scope, $filter, $http ) {
         }
         $scope.events = data;
 
+        console.log( $scope.events[0].cordinateX );
+
+        $scope.map = {
+            center: {
+                latitude    :   $scope.events[0].cordinateY,
+                longitude   :   $scope.events[0].cordinateX
+            },
+            zoom: 12,
+            id: 0
+        };
+
         $scope.farDistance = 145;
 
         $scope.filterByDistance = function( myEvent ){
@@ -26,6 +37,7 @@ module.exports = function( $scope, $filter, $http ) {
         alert('通信エラーが発生しました');
     });
 };
+
 // angular.module('App',[]).controller('MainController', [ '$scope', function ( $scope ){
 
 //     $scope.currentFilter = null;
