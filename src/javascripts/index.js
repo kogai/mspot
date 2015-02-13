@@ -1,11 +1,4 @@
-// window._ = require('lodash');
-//
-// require('angularjs');
-// require('angular-google-maps');
-
-var app         = require('./lib/app');
-var myFilter    = require('./lib/myFilter');
+var app = require('./lib/app');
 
 angular.module('App',[ 'uiGmapgoogle-maps' ])
-    // .filter('filterByDistance', [ myFilter ])
-    .controller('MainController', [ '$scope', '$filter', '$http', app ]);
+    .controller('MainController', [ '$scope', '$filter', '$http', '$q', app ]);

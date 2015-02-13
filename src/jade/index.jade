@@ -9,8 +9,8 @@ html
         
         div( ng-controller='MainController' )
             
-            ui-gmap-google-map( center='map.center', zoom='map.zoom' )
-                ui-gmap-marker( idKey='map.id', coords='map.center' )
+            ui-gmap-google-map( center='map.center', zoom='map.zoom', events='map.events' )
+                ui-gmap-markers( models='events', coords="'self'" )
 
             ul.l-center.m-list-sort
                 
@@ -18,13 +18,14 @@ html
                     input( type='number', ng-model="farDistance" ).l-idb
                     .l-idb 緯度でソート
 
-            ul.l-clr.m-list-photos
-                li( ng-repeat='event in events | orderBy:cordinateX:reverse | filter:filterByDistance').l-left
-                    a( ng-href="{{ event.link }}", target='_blank' )
-                        img( ng-src="{{ event.imgSrc }}", alt="{{ event.title }}")
-                    p.m-fz12 開始日: {{ event.eventStart }}
-                    p.m-fz12 緯度: {{ event.cordinateX }}
-                    p.m-fz12 経度: {{ event.cordinateY }}
+            //- 
+            //- ul.l-clr.m-list-photos
+            //-     li( ng-repeat='event in events | orderBy:cordinateX:reverse | filter:filterByDistance').l-left
+            //-         a( ng-href="{{ event.link }}", target='_blank' )
+            //-             img( ng-src="{{ event.imgSrc }}", alt="{{ event.title }}")
+            //-         p.m-fz12 開始日: {{ event.eventStart }}
+            //-         p.m-fz12 緯度: {{ event.cordinateX }}
+            //-         p.m-fz12 経度: {{ event.cordinateY }}
 
         script( src='https//maps.googleapis.com/maps/api/js?sensor=false' )
         script( src='/javascripts/angular.min.js' )
