@@ -1,73 +1,60 @@
-var mapStyle = require('./mapStyle');
+var mapStyle;
 
-module.exports = function( $scope, $filter, $http, $q ) {
+mapStyle = require('./mapStyle');
 
-var httpOpt = {
+module.exports = function($scope, $filter, $http, $q) {
+  var getUserGeoLocation, httpOpt, insetanceModels, renderMapsAndMarkers, _self;
+  httpOpt = {
     method: 'get',
     url: '/javascripts/test.json'
-};
-
-var _self = this;
-
-var insetanceModels = function( data, status ){
-    for (var i = 0; i < data.length; i++) {
-        data[i].cordinateX = Number(data[i].cordinateX);
-        data[i].cordinateY = Number(data[i].cordinateY);
-
-        data[i].longitude = data[i].cordinateX;
-        data[i].latitude = data[i].cordinateY;
-
-        data[i].id = i;
+  };
+  _self = this;
+  insetanceModels = function(data, status) {
+    var i, _i, _ref;
+    for (i = _i = 0, _ref = data.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      data[i].cordinateX = Number(data[i].cordinateX);
+      data[i].cordinateY = Number(data[i].cordinateY);
+      data[i].longitude = data[i].cordinateX;
+      data[i].latitude = data[i].cordinateY;
+      data[i].id = i;
     }
-
     $scope.events = data;
-};
-
-var getGeoLocation = function(  ){
-    var d = $q.defer();
-
-    window.navigator.geolocation.getCurrentPosition( function( pos ){
-
-        $scope.pos = pos;
-        d.resolve( pos );
-
-    }, function( err ){
-        d.reject( err );
-    }, {} );
-
+  };
+  getUserGeoLocation = function() {
+    var d, err, success;
+    d = $q.defer();
+    success = function(pos) {
+      $scope.pos = pos;
+      d.resolve(pos);
+    };
+    err = function(err) {
+      d.reject(err);
+    };
+    window.navigator.geolocation.getCurrentPosition(success, err, {});
     return d.promise;
-};
-
-var renderMapsAndMarkers = function( pos ){
-    var d = $q.defer();
-
+  };
+  renderMapsAndMarkers = function(pos) {
+    var d, projection_changed;
+    d = $q.defer();
     $scope.map = {
-        center: {
-            latitude : $scope.pos.coords.latitude,
-            longitude: $scope.pos.coords.longitude
-        },
-        zoom: 12,
-        events: {
-            projection_changed: function( map, eventName, originalEventArgs ) {
-                var styledMap = new google.maps.StyledMapType( mapStyle, {
-                    name: "Styled Map"
-                });
-                map.mapTypes.set( 'map_style', styledMap );
-                map.setMapTypeId( 'map_style');
-                d.resolve();
-            }
-        }
+      center: {
+        latitude: $scope.pos.coords.latitude,
+        longitude: $scope.pos.coords.longitude
+      },
+      zoom: 12,
+      events: projection_changed = function(map, eventName, originalEventArgs) {
+        var styledMap;
+        styledMap = new google.maps.StyledMapType(mapStyle, {
+          name: "Styled Map"
+        });
+        map.mapTypes.set('map_style', styledMap);
+        map.setMapTypeId('map_style');
+        d.resolve();
+      }
     };
     return d.promise;
-};
-
-// handler
-
-$http( httpOpt )
-    .success( insetanceModels )
-    .then( getGeoLocation )
-    .then( renderMapsAndMarkers )
-    .finally( function(){
-        console.log( 'all promise is done.' );
-    });
+  };
+  $http(httpOpt).success(insetanceModels).then(getUserGeoLocation).then(renderMapsAndMarkers).then(function() {
+    console.log('all promise is done.');
+  });
 };

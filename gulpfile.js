@@ -1,4 +1,6 @@
 var gulp        = require('gulp');
+var browserSync = require('browser-sync');
+var reload      = browserSync.reload;
 
 // jshint
 var jshint      = require('gulp-jshint');
@@ -10,6 +12,8 @@ var debowerify  = require('debowerify');
 var source      = require('vinyl-source-stream');
 var streamify   = require('gulp-streamify');
 var uglify      = require('gulp-uglify');
+var coffee      = require('gulp-coffee');
+var gutil       = require('gulp-util');
 
 // jade
 var jade        = require('gulp-jade');
@@ -30,6 +34,7 @@ var sourceDefiner = function( dest ){
 
 var src                 = new sourceDefiner('./src');
 var build               = new sourceDefiner('./build');
+
 
 gulp.task('stylus', function(){
     return gulp.src( src.stylus + '/index.styl' )
@@ -64,11 +69,31 @@ gulp.task('browserify', function() {
         .pipe( gulp.dest( build.javascripts ) );
 });
 
-
-gulp.task( 'watch', function() {
-    gulp.watch( [ src.stylus + '/*.styl', src.stylus + '/**/*.styl' ], [ 'stylus' ] );
-    gulp.watch( [ src.jade + '/*.jade', src.jade + '/**/*.jade' ], [ 'jade' ] );
-    gulp.watch( [ src.javascripts + '/*.js', src.javascripts + '/**/*.js' ], [ 'lint', 'browserify' ] );
+gulp.task( 'coffee', function(){
+    gulp.src( src.javascripts + '/lib/*.coffee' )
+        .pipe(
+            coffee({
+                bare: true,
+            })
+            .on( 'error', gutil.log )
+        )
+        .pipe( gulp.dest( './src/javascripts/lib'))
 });
 
-gulp.task( 'default', [ 'stylus', 'jade', 'lint', 'browserify', 'watch' ] );
+gulp.task( 'browserSync', function(){
+    browserSync({
+        server: {
+            baseDir: './build',
+            directory: true
+        }
+    });
+});
+
+gulp.task( 'watch', function() {
+    gulp.watch( [ src.stylus + '/*.styl', src.stylus + '/**/*.styl' ], [ 'stylus', reload ] );
+    gulp.watch( [ src.jade + '/*.jade', src.jade + '/**/*.jade' ], [ 'jade', reload ] );
+    gulp.watch( [ src.javascripts + '/*.coffee', src.javascripts + '/**/*.coffee' ], [ 'coffee' ] );
+    gulp.watch( [ src.javascripts + '/*.js', src.javascripts + '/**/*.js' ], [ 'lint', 'browserify', reload ] );
+});
+
+gulp.task( 'default', [ 'stylus', 'jade', 'coffee', 'lint', 'browserify', 'watch', 'browserSync' ] );
