@@ -15,7 +15,7 @@ html
                     .l-idb 緯度でソート
             
             div( class='angular-google-map-wrapper', ng-style="deviceHeight" )
-                ui-gmap-google-map( center='map.center', zoom='map.zoom', options='map.customedStyle()' )
+                ui-gmap-google-map( center='map.center', zoom='map.zoom', options='map.scrollFlg' events='map.events' )
                     ui-gmap-markers( models='events', coords="'self'" )
 
         script( src='//maps.googleapis.com/maps/api/js?sensor=false' )

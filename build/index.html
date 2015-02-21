@@ -14,7 +14,7 @@
         </li>
       </ul>
       <div ng-style="deviceHeight" class="angular-google-map-wrapper">
-        <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.customedStyle()">
+        <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.scrollFlg" events="map.events">
           <ui-gmap-markers models="events" coords="'self'"></ui-gmap-markers>
         </ui-gmap-google-map>
       </div>

@@ -50,7 +50,18 @@ module.exports = ( $scope, $filter, $http, $q, $window ) ->
         latitude : $scope.pos.coords.latitude
         longitude: $scope.pos.coords.longitude
       zoom: 10
-      customedStyle: ( map, eventName, originalEventArgs ) ->
+      events:
+        tilesloaded: ( map ) ->
+          $scope.$apply ->
+            console.log 'map'
+            styledMap = new google.maps.StyledMapType( mapStyle, {
+                name: "Styled Map"
+            })
+            map.mapTypes.set( 'map_style', styledMap )
+            map.setMapTypeId( 'map_style')
+            d.resolve()
+            return
+          return
 
         # customedStyle: ( map, eventName, originalEventArgs ) ->
         #     console.log map
@@ -59,9 +70,9 @@ module.exports = ( $scope, $filter, $http, $q, $window ) ->
         #     })
         #     map.mapTypes.set( 'map_style', styledMap )
         #     map.setMapTypeId( 'map_style')
-        return { scrollwheel: false }
-        d.resolve( )
-        #     return
+      scrollFlg:
+        scrollwheel: false
+
     return d.promise
 
   renderMarkers = () ->
