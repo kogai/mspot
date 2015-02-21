@@ -8,10 +8,6 @@ sass        = require 'gulp-sass'
 sourcemaps  = require 'gulp-sourcemaps'
 minify      = require 'gulp-minify-css'
 
-# lint
-jshint      = require 'gulp-jshint'
-stylish     = require 'jshint-stylish'
-
 # browserify
 browserify  = require 'browserify'
 debowerify  = require 'debowerify'
@@ -19,6 +15,7 @@ licensify   = require 'licensify'
 source      = require 'vinyl-source-stream'
 streamify   = require 'gulp-streamify'
 uglify      = require 'gulp-uglify'
+coffeelint  = require 'gulp-coffeelint'
 
 # // Stylus
 stylus      = require 'gulp-stylus'
@@ -76,15 +73,6 @@ gulp.task 'templates', ->
     .pipe gulp.dest('./build/')
     return
 
-gulp.task 'lint', ->
-    gulp.src([
-        './src/javascripts/*.js'
-        './src/javascripts/**/*.js'
-    ])
-    .pipe jshint()
-    .pipe jshint.reporter stylish
-    return
-
 gulp.task 'browserify', ->
     browserify
         entries: ['./src/javascripts/index.coffee']
@@ -98,6 +86,12 @@ gulp.task 'browserify', ->
     .pipe gulp.dest './build/javascripts/'
     # return
 
+gulp.task 'lint', ->
+    gulp.src('./src/javascripts/**/*.coffee')
+    .pipe coffeelint()
+    .pipe coffeelint.reporter()
+    return
+
 
 gulp.task 'watch', ->
     gulp.watch [
@@ -105,7 +99,6 @@ gulp.task 'watch', ->
         './src/javascripts/**/*.coffee'
         './src/javascripts/**/**/*.coffee'
     ],[
-        'lint'
         'browserify'
         reload
     ]
@@ -135,7 +128,7 @@ gulp.task 'watch', ->
 
 gulp.task 'default', [
     'css'
-    'lint'
+    'browserify'
     'browser'
     'templates'
     'pngmin'
