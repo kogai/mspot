@@ -1,13 +1,13 @@
 mapStyle = require('./mapStyle')
 
-module.exports = ( $scope, $filter, $http, $q ) ->
+module.exports = ( $scope, $filter, $http, $q, $window ) ->
     httpOpt =
         method: 'get'
         url: '/javascripts/test.json'
 
     _self = this
 
-    insetanceModels = ( data, status ) ->
+    incetanceModels = ( data, status ) ->
         for i in [ 0..data.length-1 ]
             # 座標をNumber化
             # @todo
@@ -43,29 +43,40 @@ module.exports = ( $scope, $filter, $http, $q ) ->
 
         return d.promise
 
-    renderMapsAndMarkers = ( pos ) ->
+    renderMaps = ( pos ) ->
         d = $q.defer()
         $scope.map =
             center:
                 latitude : $scope.pos.coords.latitude
                 longitude: $scope.pos.coords.longitude
-            zoom: 12
-            events:
-                projection_changed = ( map, eventName, originalEventArgs ) ->
-                    styledMap = new google.maps.StyledMapType( mapStyle, {
-                        name: "Styled Map"
-                    })
-                    map.mapTypes.set( 'map_style', styledMap )
-                    map.setMapTypeId( 'map_style')
-                    d.resolve();
-                    return
+            zoom: 10
+            customedStyle: ( map, eventName, originalEventArgs ) ->
 
+            # customedStyle: ( map, eventName, originalEventArgs ) ->
+            #     console.log map
+            #     styledMap = new google.maps.StyledMapType( mapStyle, {
+            #         name: "Styled Map"
+            #     })
+            #     map.mapTypes.set( 'map_style', styledMap )
+            #     map.setMapTypeId( 'map_style')
+                return { scrollwheel: false }
+                d.resolve( )
+            #     return
         return d.promise
 
+    renderMarkers = () ->
+        d = $q.defer()
+        d.resolve()
+        return d.promise
+
+    $scope.deviceHeight =
+        'height': Number( $window.innerHeight ) + "px"
+
     $http( httpOpt )
-        .success( insetanceModels )
+        .success( incetanceModels )
         .then( getUserGeoLocation )
-        .then( renderMapsAndMarkers )
+        .then( renderMaps )
+        .then( renderMarkers )
         .then ->
             console.log( 'all promise is done.' )
             return

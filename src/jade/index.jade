@@ -9,22 +9,14 @@ html
         
         div( ng-controller='MainController' )
             
-            ul.l-center.m-list-sort
+            ul.l-center.m-list-sort(  )
                 li.l-idb
                     input( type='number', ng-model="farDistance" ).l-idb
                     .l-idb 緯度でソート
-
-            ui-gmap-google-map( center='map.center', zoom='map.zoom', events='map.events' )
-                ui-gmap-markers( models='events', coords="'self'" )
-
-            //- 
-            //- ul.l-clr.m-list-photos
-            //-     li( ng-repeat='event in events | orderBy:cordinateX:reverse | filter:filterByDistance').l-left
-            //-         a( ng-href="{{ event.link }}", target='_blank' )
-            //-             img( ng-src="{{ event.imgSrc }}", alt="{{ event.title }}")
-            //-         p.m-fz12 開始日: {{ event.eventStart }}
-            //-         p.m-fz12 緯度: {{ event.cordinateX }}
-            //-         p.m-fz12 経度: {{ event.cordinateY }}
+            
+            div( class='angular-google-map-wrapper', ng-style="deviceHeight" )
+                ui-gmap-google-map( center='map.center', zoom='map.zoom', options='map.customedStyle()' )
+                    ui-gmap-markers( models='events', coords="'self'" )
 
         script( src='//maps.googleapis.com/maps/api/js?sensor=false' )
         script( src='/javascripts/angular.min.js' )
