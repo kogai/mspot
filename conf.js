@@ -9,10 +9,10 @@ exports.config = {
     },
 
     // テスト対象のspecファイルのパス
-    specs: ["test/spec.js"],
+    specs: ["spec/spec.js"],
 
     // テスト対象のアプリケーションのベースURL
-    baseUrl: 'http://localhost:3000/',
+    baseUrl: 'http://localhost:3000/index.html',
 
     // 利用するテストフレームワーク
     framework: "jasmine",

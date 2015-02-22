@@ -25,6 +25,11 @@ module.exports = ( $scope, $filter, $http, $q, $window ) ->
       data[i].id          = i
 
     $scope.events = data
+    $scope.valChange = ( centerLat, centerLong )->
+      $scope.map.center.latitude =  centerLat
+      $scope.map.center.longitude =  centerLong
+      $scope.centerLat = ''
+      $scope.centerLong = ''
     return
 
   getUserGeoLocation = () ->
