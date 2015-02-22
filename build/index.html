@@ -9,11 +9,11 @@
     <div ng-controller="MainController">
       <ul class="l-center m-list-sort">
         <li class="l-idb">
-          <input type="number" ng-model="farDistance" class="l-idb">
+          <input type="number" ng-model="farDistance" placeholder="{{ map.center.latitude }}" class="l-idb">
           <div class="l-idb">緯度でソート</div>
         </li>
       </ul>
-      <div ng-style="deviceHeight" class="angular-google-map-wrapper">
+      <div ng-style="map.deviceHeight" class="angular-google-map-wrapper">
         <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.scrollFlg" events="map.events">
           <ui-gmap-markers models="events" coords="'self'"></ui-gmap-markers>
         </ui-gmap-google-map>

@@ -50,6 +50,8 @@ module.exports = ( $scope, $filter, $http, $q, $window ) ->
         latitude : $scope.pos.coords.latitude
         longitude: $scope.pos.coords.longitude
       zoom: 10
+      deviceHeight:
+        'height': Number( $window.innerHeight ) + "px"
       events:
         tilesloaded: ( map ) ->
           $scope.$apply ->
@@ -62,32 +64,15 @@ module.exports = ( $scope, $filter, $http, $q, $window ) ->
             d.resolve()
             return
           return
-
-        # customedStyle: ( map, eventName, originalEventArgs ) ->
-        #     console.log map
-        #     styledMap = new google.maps.StyledMapType( mapStyle, {
-        #         name: "Styled Map"
-        #     })
-        #     map.mapTypes.set( 'map_style', styledMap )
-        #     map.setMapTypeId( 'map_style')
       scrollFlg:
         scrollwheel: false
 
     return d.promise
 
-  renderMarkers = () ->
-    d = $q.defer()
-    d.resolve()
-    return d.promise
-
-  $scope.deviceHeight =
-    'height': Number( $window.innerHeight ) + "px"
-
   $http( httpOpt )
     .success( incetanceModels )
     .then( getUserGeoLocation )
     .then( renderMaps )
-    .then( renderMarkers )
     .then ->
       console.log( 'all promise is done.' )
       return

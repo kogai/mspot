@@ -2,7 +2,8 @@ doctype html
 html
     head
         meta( charset="UTF-8" )
-        link( rel="stylesheet", href="/css/index.css" )
+        link( rel="stylesheet",
+        href="/css/index.css" )
         title MAP-APP
         
     body( ng-app='App' )
@@ -11,12 +12,20 @@ html
             
             ul.l-center.m-list-sort(  )
                 li.l-idb
-                    input( type='number', ng-model="farDistance" ).l-idb
+                    input( type='number', ng-model="farDistance", placeholder='{{ map.center.latitude }}' ).l-idb
                     .l-idb 緯度でソート
             
-            div( class='angular-google-map-wrapper', ng-style="deviceHeight" )
-                ui-gmap-google-map( center='map.center', zoom='map.zoom', options='map.scrollFlg' events='map.events' )
-                    ui-gmap-markers( models='events', coords="'self'" )
+            div( class='angular-google-map-wrapper', ng-style="map.deviceHeight" )
+                ui-gmap-google-map(
+                  center='map.center',
+                  zoom='map.zoom',
+                  options='map.scrollFlg',
+                  events='map.events'
+                )
+                    ui-gmap-markers(
+                      models='events',
+                      coords="'self'"
+                    )
 
         script( src='//maps.googleapis.com/maps/api/js?sensor=false' )
         script( src='/javascripts/angular.min.js' )
